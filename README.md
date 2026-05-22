@@ -412,4 +412,3 @@ This project is licensed under the ISC License.
 ---
 
 **Made with ❤️ by Joyal Quadras**
-````
