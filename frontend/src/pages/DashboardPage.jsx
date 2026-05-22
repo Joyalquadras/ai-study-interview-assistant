@@ -18,8 +18,13 @@ export const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // 👇 Skip API call entirely for guest users
+    if (user?.isGuest) {
+      setIsLoading(false);
+      return;
+    }
     loadDashboardData();
-  }, []);
+  }, [user]);
 
   const loadDashboardData = async () => {
     try {
@@ -64,7 +69,6 @@ export const DashboardPage = () => {
             <p className="text-gray-600">Notes Uploaded</p>
           </div>
         </Card>
-
         <Card>
           <div className="text-center">
             <div className="text-4xl font-bold text-green-600 mb-2">
@@ -73,7 +77,6 @@ export const DashboardPage = () => {
             <p className="text-gray-600">AI Conversations</p>
           </div>
         </Card>
-
         <Card>
           <div className="text-center">
             <div className="text-4xl font-bold text-purple-600 mb-2">
@@ -86,31 +89,34 @@ export const DashboardPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <Link to="/notes">
-          <Button className="w-full" variant="primary">
-            📝 Upload Notes
-          </Button>
+          <Button className="w-full" variant="primary">📝 Upload Notes</Button>
         </Link>
         <Link to="/chat">
-          <Button className="w-full" variant="primary">
-            💬 Start Chat
-          </Button>
+          <Button className="w-full" variant="primary">💬 Start Chat</Button>
         </Link>
         <Link to="/gap-analyzer">
-          <Button className="w-full" variant="primary">
-            🔍 Gap Analyzer
-          </Button>
+          <Button className="w-full" variant="primary">🔍 Gap Analyzer</Button>
         </Link>
         <Link to="/mock-interview">
-          <Button className="w-full" variant="primary">
-            🎯 Mock Interview
-          </Button>
+          <Button className="w-full" variant="primary">🎯 Mock Interview</Button>
         </Link>
       </div>
 
       {/* Recent Activity */}
       <Card>
         <h2 className="text-xl font-bold mb-4">Recent Notes</h2>
-        {isLoading ? (
+
+        {/* 👇 Guest-specific empty state */}
+        {user?.isGuest ? (
+          <div className="text-center py-6">
+            <p className="text-gray-500 mb-3">
+              You're in guest mode. Register to save notes and track progress.
+            </p>
+            <Link to="/register">
+              <Button variant="primary">Register Free</Button>
+            </Link>
+          </div>
+        ) : isLoading ? (
           <p className="text-gray-500">Loading...</p>
         ) : stats.recentActivity.length > 0 ? (
           <div className="space-y-3">
@@ -125,9 +131,7 @@ export const DashboardPage = () => {
                     {getTimeAgo(note.createdAt)} • {note.fileType.toUpperCase()}
                   </p>
                 </div>
-                <Button variant="outline" size="sm">
-                  View
-                </Button>
+                <Button variant="outline" size="sm">View</Button>
               </div>
             ))}
           </div>

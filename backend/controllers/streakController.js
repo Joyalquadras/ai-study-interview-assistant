@@ -15,11 +15,10 @@ const getYesterdayString = (todayStr) => {
 };
 
 const getChallengeTypeForDay = (dayOfWeek) => {
-  // 0 = Sun, 1 = Mon, ... 6 = Sat
   if (dayOfWeek === 0) return 'summary';
   if (dayOfWeek === 1 || dayOfWeek === 4) return 'mcq';
   if (dayOfWeek === 2 || dayOfWeek === 5) return 'flashcard';
-  return 'mock_question'; // Wed, Sat
+  return 'mock_question';
 };
 
 const findOrCreateStreak = async (userId) => {
@@ -30,19 +29,67 @@ const findOrCreateStreak = async (userId) => {
   return streak;
 };
 
+// 👇 Fallback questions when Groq is rate limited or unavailable
+const FALLBACK_CHALLENGES = {
+  flashcard: {
+    type: 'flashcard',
+    question: 'What is the difference between monolithic and microservices architecture?',
+  },
+  mcq: {
+    type: 'mcq',
+    question: 'Which data structure uses LIFO (Last In First Out) order? A) Queue  B) Stack  C) LinkedList  D) Tree',
+  },
+  mock_question: {
+    type: 'mock_question',
+    question: 'Explain the concept of closures in JavaScript with an example.',
+  },
+  summary: {
+    type: 'summary',
+    question: 'Summarize the key differences between SQL and NoSQL databases.',
+  },
+};
+
 export const getToday = asyncHandler(async (req, res) => {
-  const streak = await findOrCreateStreak(req.user._id);
   const todayStr = toDateString(new Date());
   const challengeType = getChallengeTypeForDay(new Date().getDay());
+
+  // 👇 Guest users: skip DB and AI entirely, return defaults immediately
+  if (req.user?.role === 'guest') {
+    return res.status(200).json({
+      success: true,
+      data: {
+        hasCompleted: false,
+        currentStreak: 0,
+        longestStreak: 0,
+        history: [],
+        todayChallenge: FALLBACK_CHALLENGES[challengeType],
+      },
+    });
+  }
+
+  const streak = await findOrCreateStreak(req.user._id);
 
   const hasCompleted =
     streak.lastCompletedDate &&
     toDateString(streak.lastCompletedDate) === todayStr;
 
-  const prompt = `Generate one ${challengeType} challenge question for interview prep.
+  // 👇 Wrap Groq call in try/catch — never crash on AI failure
+  let challenge;
+  try {
+    const prompt = `Generate one ${challengeType} challenge question for interview prep.
 Return ONLY JSON: { "question": "...", "type": "${challengeType}" }`;
 
-  const challenge = await generateContent(prompt, true);
+    challenge = await generateContent(prompt, true);
+
+    // Validate response has required fields
+    if (!challenge?.question) {
+      throw new Error('Invalid AI response');
+    }
+  } catch (aiError) {
+    // Rate limit (429) or any other AI error → use fallback silently
+    console.warn(`Groq unavailable (${aiError.status || aiError.message}), using fallback challenge`);
+    challenge = FALLBACK_CHALLENGES[challengeType];
+  }
 
   res.status(200).json({
     success: true,
@@ -66,6 +113,14 @@ export const completeChallenge = asyncHandler(async (req, res) => {
     return res.status(400).json({
       success: false,
       message: 'challengeType is required',
+    });
+  }
+
+  // 👇 Guest users can't save progress
+  if (req.user?.role === 'guest') {
+    return res.status(403).json({
+      success: false,
+      message: 'Register to save your streak progress.',
     });
   }
 

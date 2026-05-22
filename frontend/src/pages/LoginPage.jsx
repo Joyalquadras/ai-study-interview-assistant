@@ -10,35 +10,30 @@ export const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+  const { login, loginAsGuest } = useAuthStore(); // 👈 add loginAsGuest
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validateForm();
-
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-
     setIsLoading(true);
     try {
       await login(formData.email, formData.password);
@@ -57,6 +52,13 @@ export const LoginPage = () => {
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
     }
+  };
+
+  // 👇 new handler
+  const handleGuestLogin = () => {
+    loginAsGuest();
+    showToast.success('Continuing as Guest');
+    navigate('/dashboard');
   };
 
   return (
@@ -78,7 +80,6 @@ export const LoginPage = () => {
             onChange={handleChange}
             error={errors.email}
           />
-
           <Input
             name="password"
             type="password"
@@ -87,15 +88,24 @@ export const LoginPage = () => {
             onChange={handleChange}
             error={errors.password}
           />
-
-          <Button
-            type="submit"
-            isLoading={isLoading}
-            className="w-full"
-          >
+          <Button type="submit" isLoading={isLoading} className="w-full">
             Login
           </Button>
         </form>
+
+        {/* 👇 Divider + Guest Button */}
+        <div className="mt-4 flex items-center gap-3">
+          <hr className="flex-1 border-gray-200" />
+          <span className="text-sm text-gray-400">or</span>
+          <hr className="flex-1 border-gray-200" />
+        </div>
+
+        <button
+          onClick={handleGuestLogin}
+          className="mt-4 w-full py-2 px-4 border-2 border-blue-200 text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+        >
+          👋 Continue as Guest
+        </button>
 
         <div className="mt-6 text-center">
           <p className="text-gray-600">
