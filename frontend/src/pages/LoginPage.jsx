@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../context/authStore';
 import { Button, Input, showToast } from '../components/common/CommonComponents';
-import { getErrorMessage } from "../utils/helpers";
+import { getErrorMessage } from '../utils/helpers';
 
 export const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });

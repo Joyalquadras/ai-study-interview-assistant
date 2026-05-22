@@ -1,3 +1,4 @@
+// backend/controllers/authController.js
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
@@ -203,6 +204,46 @@ export const updateProfile = async (req, res) => {
       message: 'Profile updated successfully',
       data: {
         user: user.toJSON(),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const GUEST_EMAIL = 'guest@studyai.com';
+
+export const guestLogin = async (req, res) => {
+  try {
+    let user = await User.findOne({ email: GUEST_EMAIL });
+
+    if (!user) {
+      user = await User.create({
+        name: 'Guest User',
+        email: GUEST_EMAIL,
+        password: 'GuestPass123!',
+        role: 'guest',
+      });
+    }
+
+    user.lastLogin = new Date();
+    await user.save();
+
+    const { accessToken, refreshToken } = generateTokens(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Guest login successful',
+      data: {
+        user: user.toJSON(),
+        token: accessToken,
+        tokens: {
+          accessToken,
+          refreshToken,
+        },
       },
     });
   } catch (error) {

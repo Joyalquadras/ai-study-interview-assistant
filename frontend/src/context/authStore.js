@@ -1,30 +1,35 @@
+// frontend/src/context/authStore.js
 import { create } from 'zustand';
 import { authAPI } from '../services/api';
 
 export const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
+  isGuest: false,
   isLoading: false,
 
-  // Initialize auth state from localStorage
   initAuth: async () => {
     const token = localStorage.getItem('accessToken');
-    if (token) {
-      try {
-        const response = await authAPI.getMe();
-        set({
-          user: response.data.data.user,
-          isAuthenticated: true,
-        });
-      } catch (error) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        set({ isAuthenticated: false });
-      }
+    if (!token) {
+      set({ user: null, isAuthenticated: false, isGuest: false });
+      return;
+    }
+
+    try {
+      const response = await authAPI.getMe();
+      const user = response.data.data.user;
+      set({
+        user,
+        isAuthenticated: true,
+        isGuest: user?.role === 'guest' || user?.email === 'guest@studyai.com',
+      });
+    } catch (error) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      set({ user: null, isAuthenticated: false, isGuest: false });
     }
   },
 
-  // Register
   register: async (name, email, password, confirmPassword) => {
     set({ isLoading: true });
     try {
@@ -43,6 +48,7 @@ export const useAuthStore = create((set) => ({
       set({
         user,
         isAuthenticated: true,
+        isGuest: false,
         isLoading: false,
       });
 
@@ -53,7 +59,6 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  // Login
   login: async (email, password) => {
     set({ isLoading: true });
     try {
@@ -67,6 +72,7 @@ export const useAuthStore = create((set) => ({
       set({
         user,
         isAuthenticated: true,
+        isGuest: false,
         isLoading: false,
       });
 
@@ -77,7 +83,33 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  // Logout
+  guestLogin: async () => {
+    set({ isLoading: true });
+    try {
+      const response = await authAPI.guestLogin();
+      const { user, tokens, token } = response.data.data;
+      const accessToken = tokens?.accessToken || token;
+      const refreshToken = tokens?.refreshToken;
+
+      localStorage.setItem('accessToken', accessToken);
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+      }
+
+      set({
+        user,
+        isAuthenticated: true,
+        isGuest: true,
+        isLoading: false,
+      });
+
+      return { success: true, user };
+    } catch (error) {
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+
   logout: async () => {
     try {
       await authAPI.logout();
@@ -91,10 +123,10 @@ export const useAuthStore = create((set) => ({
     set({
       user: null,
       isAuthenticated: false,
+      isGuest: false,
     });
   },
 
-  // Update profile
   updateProfile: async (data) => {
     set({ isLoading: true });
     try {
@@ -110,9 +142,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  // Set user
   setUser: (user) => set({ user }),
 
-  // Set authenticated
   setAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 }));

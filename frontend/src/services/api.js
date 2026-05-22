@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+// In local dev, use Vite proxy (/api → localhost:5000) unless VITE_FORCE_REMOTE_API=true
+const resolveApiBase = () => {
+  if (import.meta.env.DEV && import.meta.env.VITE_FORCE_REMOTE_API !== 'true') {
+    return '/api';
+  }
+  return import.meta.env.VITE_API_URL || '/api';
+};
+
+const API_BASE = resolveApiBase();
 
 // Create axios instance
 export const apiClient = axios.create({
@@ -55,6 +63,7 @@ apiClient.interceptors.response.use(
 export const authAPI = {
   register: (data) => apiClient.post('/auth/register', data),
   login: (data) => apiClient.post('/auth/login', data),
+  guestLogin: () => apiClient.post('/auth/guest'),
   logout: () => apiClient.post('/auth/logout'),
   getMe: () => apiClient.get('/auth/me'),
   updateProfile: (data) => apiClient.put('/auth/update-profile', data),
