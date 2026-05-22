@@ -1,6 +1,13 @@
+
 # 🎓 AI Study & Interview Preparation Assistant
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-blue?style=for-the-badge)](https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/Joyalquadras/ai-study-interview-assistant)
+
 A production-ready full-stack web application that helps students prepare for interviews and exams using AI-powered tools, intelligent note management, and personalized learning plans.
+
+🔗 **Live Demo:** https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app/
+💻 **GitHub:** https://github.com/Joyalquadras/ai-study-interview-assistant
 
 ## ✨ Features
 
@@ -28,7 +35,7 @@ A production-ready full-stack web application that helps students prepare for in
 ### 💬 AI Chat with Context
 - ChatGPT-like interface with message history
 - Ask questions based on uploaded notes
-- Google Gemini API integration
+- Groq API (LLaMA 3.3 70B) integration
 - Streaming responses with typing effects
 - Persistent chat history in database
 - Support for multiple conversations
@@ -92,40 +99,40 @@ Features:
 AI Study Assistant/
 ├── backend/
 │   ├── config/
-│   │   ├── database.js          # MongoDB connection
-│   │   └── multer.js            # File upload configuration
+│   │   ├── database.js
+│   │   └── multer.js
 │   ├── controllers/
-│   │   ├── authController.js    # Authentication logic
-│   │   ├── noteController.js    # Note management
-│   │   ├── chatController.js    # Chat functionality
-│   │   ├── resumeController.js  # Resume analysis
-│   │   ├── studyPlanController.js # Study plans
-│   │   └── interviewController.js # Mock interviews
+│   │   ├── authController.js
+│   │   ├── noteController.js
+│   │   ├── chatController.js
+│   │   ├── resumeController.js
+│   │   ├── studyPlanController.js
+│   │   └── interviewController.js
 │   ├── models/
-│   │   ├── User.js              # User schema
-│   │   ├── Note.js              # Note schema
-│   │   ├── Chat.js              # Chat schema
-│   │   ├── ResumeAnalysis.js    # Resume analysis schema
-│   │   ├── StudyPlan.js         # Study plan schema
-│   │   └── MockInterview.js     # Mock interview schema
+│   │   ├── User.js
+│   │   ├── Note.js
+│   │   ├── Chat.js
+│   │   ├── ResumeAnalysis.js
+│   │   ├── StudyPlan.js
+│   │   └── MockInterview.js
 │   ├── routes/
-│   │   ├── authRoutes.js        # Auth endpoints
-│   │   ├── noteRoutes.js        # Note endpoints
-│   │   ├── chatRoutes.js        # Chat endpoints
-│   │   ├── resumeRoutes.js      # Resume endpoints
-│   │   ├── studyPlanRoutes.js   # Study plan endpoints
-│   │   └── interviewRoutes.js   # Interview endpoints
+│   │   ├── authRoutes.js
+│   │   ├── noteRoutes.js
+│   │   ├── chatRoutes.js
+│   │   ├── resumeRoutes.js
+│   │   ├── studyPlanRoutes.js
+│   │   └── interviewRoutes.js
 │   ├── middleware/
-│   │   ├── auth.js              # JWT verification
-│   │   ├── errorHandler.js      # Error handling
-│   │   ├── rateLimiter.js       # Rate limiting
-│   │   └── logger.js            # Request logging
+│   │   ├── auth.js
+│   │   ├── errorHandler.js
+│   │   ├── rateLimiter.js
+│   │   └── logger.js
 │   ├── services/
-│   │   └── geminiService.js     # Google Gemini API integration
-│   ├── uploads/                 # Uploaded files storage
-│   ├── .env.example             # Environment variables template
-│   ├── server.js                # Express server setup
-│   └── package.json             # Backend dependencies
+│   │   └── geminiService.js
+│   ├── uploads/
+│   ├── .env.example
+│   ├── server.js
+│   └── package.json
 │
 ├── frontend/
 │   ├── src/
@@ -133,42 +140,41 @@ AI Study Assistant/
 │   │   │   ├── auth/
 │   │   │   │   └── AuthGuard.jsx
 │   │   │   ├── common/
-│   │   │   │   ├── CommonComponents.jsx  # Reusable UI components
-│   │   │   │   ├── ProtectedRoute.jsx    # Route protection
-│   │   │   │   └── Sidebar.jsx           # Navigation sidebar
+│   │   │   │   ├── CommonComponents.jsx
+│   │   │   │   ├── ProtectedRoute.jsx
+│   │   │   │   └── Sidebar.jsx
 │   │   │   ├── chat/
-│   │   │   │   └── ChatInterface.jsx     # Chat component
+│   │   │   │   └── ChatInterface.jsx
 │   │   │   └── dashboard/
-│   │   │       └── NotesManager.jsx      # Notes management
+│   │   │       └── NotesManager.jsx
 │   │   ├── pages/
-│   │   │   ├── LoginPage.jsx             # Login page
-│   │   │   ├── RegisterPage.jsx          # Registration page
-│   │   │   ├── DashboardPage.jsx         # Main dashboard
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── RegisterPage.jsx
+│   │   │   ├── DashboardPage.jsx
 │   │   │   ├── NotesPage.jsx
 │   │   │   ├── ChatPage.jsx
 │   │   │   ├── ResumePage.jsx
 │   │   │   ├── StudyPlanPage.jsx
 │   │   │   └── InterviewPage.jsx
 │   │   ├── services/
-│   │   │   └── api.js                    # API client configuration
+│   │   │   └── api.js
 │   │   ├── context/
-│   │   │   ├── authStore.js              # Auth state management
-│   │   │   └── themeStore.js             # Theme management
+│   │   │   ├── authStore.js
+│   │   │   └── themeStore.js
 │   │   ├── hooks/
-│   │   │   └── useCustom.js              # Custom hooks
+│   │   │   └── useCustom.js
 │   │   ├── layouts/
-│   │   │   └── MainLayout.jsx            # Main layout wrapper
+│   │   │   └── MainLayout.jsx
 │   │   ├── utils/
-│   │   │   └── helpers.js                # Utility functions
-│   │   ├── App.jsx                       # Main app component
-│   │   ├── main.jsx                      # App entry point
-│   │   └── index.css                     # Global styles
-│   ├── index.html                        # HTML template
-│   ├── tailwind.config.js                # Tailwind CSS config
-│   ├── postcss.config.js                 # PostCSS config
-│   ├── vite.config.js                    # Vite configuration
-│   ├── .env.example                      # Frontend environment template
-│   └── package.json                      # Frontend dependencies
+│   │   │   └── helpers.js
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   ├── .env.example
+│   └── package.json
 │
 ├── .gitignore
 └── README.md
@@ -180,7 +186,7 @@ AI Study Assistant/
 - Node.js >= 18.x
 - npm or yarn
 - MongoDB database (local or MongoDB Atlas)
-- Google Gemini API key
+- Groq API key (free at console.groq.com)
 - Git
 
 ### Backend Setup
@@ -209,21 +215,16 @@ NODE_ENV=development
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ai-study-db
 
 # JWT
-JWT_SECRET=your_super_secret_key_here_change_in_production
+JWT_SECRET=your_super_secret_key_here
 JWT_EXPIRE=7d
 JWT_REFRESH_SECRET=your_refresh_secret_key_here
 JWT_REFRESH_EXPIRE=30d
 
-# Google Gemini API
-GROQ_API_KEY=your_google_gemini_api_key
+# Groq API (free at console.groq.com)
+GROQ_API_KEY=gsk_your_groq_api_key
 
 # Frontend URL
 FRONTEND_URL=http://localhost:5173
-
-# Optional: Email configuration for OTP
-EMAIL_SERVICE=gmail
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_app_password
 ```
 
 5. **Start the backend server:**
@@ -266,7 +267,6 @@ Frontend will run on `http://localhost:5173`
 ## 📚 API Documentation
 
 ### Authentication Endpoints
-
 ```
 POST   /api/auth/register           - Register new user
 POST   /api/auth/login              - Login user
@@ -277,7 +277,6 @@ PUT    /api/auth/update-profile     - Update user profile
 ```
 
 ### Notes Endpoints
-
 ```
 GET    /api/notes                   - Get all notes (paginated)
 GET    /api/notes/:id               - Get single note
@@ -287,7 +286,6 @@ DELETE /api/notes/:id               - Delete note
 ```
 
 ### Chat Endpoints
-
 ```
 GET    /api/chats                   - Get all chats
 POST   /api/chats                   - Create new chat
@@ -298,7 +296,6 @@ PUT    /api/chats/:chatId/toggle-pin - Toggle pin status
 ```
 
 ### Resume Analysis Endpoints
-
 ```
 POST   /api/resume/:noteId/analyze  - Analyze resume
 GET    /api/resume/:noteId          - Get analysis results
@@ -306,18 +303,15 @@ GET    /api/resume                  - Get all analyses
 ```
 
 ### Study Plans Endpoints
-
 ```
 GET    /api/study-plans             - Get all plans
 POST   /api/study-plans             - Create new plan
 GET    /api/study-plans/:id         - Get single plan
 PUT    /api/study-plans/:id         - Update plan
-PUT    /api/study-plans/:id/task/:taskIndex - Update task
 DELETE /api/study-plans/:id         - Delete plan
 ```
 
 ### Interview Endpoints
-
 ```
 GET    /api/interviews              - Get all interviews
 POST   /api/interviews/start        - Start new interview
@@ -327,19 +321,16 @@ PUT    /api/interviews/:id/complete - Complete interview
 DELETE /api/interviews/:id          - Delete interview
 ```
 
-## 🔧 Development
-
-### Tech Stack
+## 🔧 Tech Stack
 
 **Backend:**
 - Node.js & Express.js
 - MongoDB & Mongoose
 - JWT Authentication
-- Google Gemini API
+- Groq API — LLaMA 3.3 70B
 - Multer (File uploads)
 - pdf-parse (PDF extraction)
 - Bcryptjs (Password hashing)
-- Express Validator (Input validation)
 - Helmet (Security headers)
 
 **Frontend:**
@@ -351,81 +342,17 @@ DELETE /api/interviews/:id          - Delete interview
 - Zustand (State management)
 - React Hot Toast (Notifications)
 
-### Running Tests
-
-```bash
-# Backend tests (when added)
-cd backend
-npm run test
-
-# Frontend tests (when added)
-cd frontend
-npm run test
-```
-
-### Building for Production
-
-**Backend:**
-```bash
-cd backend
-npm start
-```
-
-**Frontend:**
-```bash
-cd frontend
-npm run build
-npm run preview
-```
-
 ## 🌐 Deployment
 
-### Backend Deployment (Render)
-
-1. Push your code to GitHub
-2. Connect your repository to Render
-3. Set environment variables in Render dashboard
-4. Deploy with Node.js configuration
-
-### Frontend Deployment (Vercel)
-
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Set environment variables
-4. Deploy automatically
-
-### Database (MongoDB Atlas)
-
-1. Create MongoDB Atlas account
-2. Create a cluster
-3. Get connection string
-4. Add it to backend .env as MONGODB_URI
-
-## 📋 Environment Variables
-
-### Backend (.env)
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| PORT | Server port | 5000 |
-| NODE_ENV | Environment | development/production |
-| MONGODB_URI | MongoDB connection | mongodb+srv://user:pass@cluster.mongodb.net/db |
-| JWT_SECRET | JWT secret key | your_secret_key_here |
-| JWT_EXPIRE | JWT expiration | 7d |
-| GEMINI_API_KEY | Google Gemini API key | your_gemini_key |
-| FRONTEND_URL | Frontend URL | http://localhost:5173 |
-
-### Frontend (.env)
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| VITE_API_URL | Backend API URL | http://localhost:5000/api |
-| VITE_APP_NAME | App name | AI Study Assistant |
+| Service | Platform |
+|---------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | MongoDB Atlas |
 
 ## 🔐 Security Features
 
-- ✅ JWT-based authentication
-- ✅ Refresh token mechanism
+- ✅ JWT-based authentication with refresh tokens
 - ✅ Password hashing with bcrypt
 - ✅ CORS configuration
 - ✅ Rate limiting
@@ -438,12 +365,10 @@ npm run preview
 ## 📈 Performance Optimizations
 
 - Code splitting and lazy loading
-- Image optimization
 - API response caching
 - Database indexing
 - Pagination for large datasets
 - Debouncing and throttling
-- CSS minification
 - JavaScript bundling
 
 ## 🐛 Error Handling
@@ -460,15 +385,11 @@ npm run preview
 - [ ] Voice-to-text input for questions
 - [ ] Speech synthesis for AI answers
 - [ ] LeetCode progress tracker integration
-- [ ] Daily streak system
 - [ ] Email OTP verification
 - [ ] Google OAuth login
-- [ ] Collaboration features
-- [ ] Advanced analytics dashboard
 - [ ] Mobile app (React Native)
 - [ ] Real-time collaboration
-- [ ] Video tutorials integration
-- [ ] Peer review system
+- [ ] Advanced analytics dashboard
 
 ## 📝 Contributing
 
@@ -480,17 +401,15 @@ npm run preview
 
 ## 📄 License
 
-This project is licensed under the ISC License - see LICENSE file for details.
-
-## 🤝 Support
-
-For support, email support@aistudyassistant.com or create an issue in the repository.
+This project is licensed under the ISC License.
 
 ## 📞 Contact
 
-
-- Email: joyalquadras95@gmail.com
+- **Email:** joyalquadras95@gmail.com
+- **GitHub:** https://github.com/Joyalquadras/ai-study-interview-assistant
+- **Live Demo:** https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app/
 
 ---
 
 **Made with ❤️ by Joyal Quadras**
+````
