@@ -488,10 +488,9 @@ For support, email support@aistudyassistant.com or create an issue in the reposi
 
 ## 📞 Contact
 
-- Website: [aistudyassistant.com](https://aistudyassistant.com)
-- Email: hello@aistudyassistant.com
-- Twitter: [@aistudyapp](https://twitter.com/aistudyapp)
+
+- Email: joyalquadras95@gmail.com
 
 ---
 
-**Made with ❤️ by the AI Study Assistant Team**
+**Made with ❤️ by Joyal Quadras**
