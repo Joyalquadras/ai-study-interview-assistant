@@ -1,12 +1,14 @@
+Here's the complete updated README with new live link and all new features:
 
+````markdown
 # 🎓 AI Study & Interview Preparation Assistant
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-blue?style=for-the-badge)](https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-blue?style=for-the-badge)](https://ai-study-interview-assistant.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/Joyalquadras/ai-study-interview-assistant)
 
 A production-ready full-stack web application that helps students prepare for interviews and exams using AI-powered tools, intelligent note management, and personalized learning plans.
 
-🔗 **Live Demo:** https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app/
+🔗 **Live Demo:** https://ai-study-interview-assistant.vercel.app/
 💻 **GitHub:** https://github.com/Joyalquadras/ai-study-interview-assistant
 
 ## ✨ Features
@@ -17,6 +19,14 @@ A production-ready full-stack web application that helps students prepare for in
 - Password hashing with bcrypt
 - Protected routes and role-based access control
 - Secure logout functionality
+- **Guest Mode** — try the full app without registering
+
+### 👋 Guest Mode
+- One-click access without registration
+- Pre-populated demo data (notes, study plan, chat history)
+- Full access to all features
+- Guest banner with register prompt
+- Try as Guest button on landing page and login page
 
 ### 📊 Dashboard
 - Personalized dashboard showing study progress
@@ -24,6 +34,8 @@ A production-ready full-stack web application that helps students prepare for in
 - Study statistics and progress tracking
 - Interview preparation tracker
 - Quick action buttons for all features
+- 🔥 Daily streak system with heatmap
+- Daily micro-challenge widget
 
 ### 📝 PDF/Notes Upload & Management
 - Upload PDF notes, resumes, and study materials
@@ -41,12 +53,13 @@ A production-ready full-stack web application that helps students prepare for in
 - Support for multiple conversations
 
 ### 🤖 AI-Powered Features
-- **Summary Generation**: Create concise summaries of any content
-- **Question Generation**: Auto-generate important questions from notes
-- **MCQ Creation**: Generate multiple-choice questions for practice
-- **Flashcard Generation**: Create study flashcards automatically
-- **Interview Questions**: Generate category-specific interview questions
-- **Study Roadmaps**: AI-created structured learning plans
+- **Summary Generation** — create concise summaries of any content
+- **Question Generation** — auto-generate important questions from notes
+- **MCQ Creation** — generate multiple-choice questions for practice
+- **Flashcard Generation** — create study flashcards automatically
+- **Interview Questions** — generate category-specific interview questions
+- **Study Roadmaps** — AI-created structured learning plans
+- **Resume Bullet Generator** — turn notes into ATS-friendly resume bullets
 
 ### 📄 Resume Analyzer
 - Upload and analyze resume PDFs
@@ -69,19 +82,49 @@ Supported categories:
 
 Features:
 - AI mock interviewer
+- **3 Interview Personas** — Friendly Mentor, Strict Panelist, Skeptic
 - Intelligent feedback and scoring
-- Multiple difficulty levels (Beginner, Intermediate, Advanced)
+- Multiple difficulty levels (Easy, Medium, Hard)
 - Timer mode for realistic practice
 - Response evaluation and suggestions
 - Performance tracking
 
 ### 📚 Study Planner
 - AI-generated personalized study plans
-- Set custom study goals
-- Daily task management
+- Set custom study goals with topics and target date
+- Daily task management with resources
 - Smart prioritization
 - Progress tracking
-- Flexible scheduling (days, weeks, months)
+- View previous plans
+
+### 🎯 Job Description Gap Analyzer *(New)*
+- Paste any job description
+- AI compares it with your resume skills
+- Match score with visual progress ring
+- Matched vs missing skills breakdown
+- Priority study topics with direct note links
+- AI recommendation paragraph
+
+### 📖 STAR Story Bank *(New)*
+- Save behavioral interview stories (Situation, Task, Action, Result)
+- AI automatically maps each story to HR questions
+- Expandable story cards with mapped questions
+- Practice button links directly to mock interview
+- Tag-based organization
+
+### 📊 Quiz Analytics — Confidence Calibration *(New)*
+- Rate confidence (1-5) before answering MCQs
+- Tracks overconfidence (high confidence + wrong answers)
+- Tracks underestimated knowledge (low confidence + correct)
+- Bar chart showing accuracy per confidence level
+- Personalized insight cards
+
+### 🔥 Daily Streak System *(New)*
+- Daily micro-challenges (MCQ, Flashcard, Mock Question, Summary)
+- Streak counter with flame emoji
+- Weekly activity heatmap
+- 30-day contribution graph (GitHub-style)
+- Challenge modal with AI-generated questions
 
 ### 🎨 Modern UI/UX
 - Clean, responsive design
@@ -92,6 +135,7 @@ Features:
 - Reusable component library
 - Mobile-first design approach
 - Smooth animations and transitions
+- Beautiful landing page with gradient hero
 
 ## 📁 Project Structure
 
@@ -107,28 +151,43 @@ AI Study Assistant/
 │   │   ├── chatController.js
 │   │   ├── resumeController.js
 │   │   ├── studyPlanController.js
-│   │   └── interviewController.js
+│   │   ├── interviewController.js
+│   │   ├── gapAnalyzerController.js
+│   │   ├── quizController.js
+│   │   ├── streakController.js
+│   │   └── starStoryController.js
 │   ├── models/
 │   │   ├── User.js
 │   │   ├── Note.js
 │   │   ├── Chat.js
 │   │   ├── ResumeAnalysis.js
 │   │   ├── StudyPlan.js
-│   │   └── MockInterview.js
+│   │   ├── MockInterview.js
+│   │   ├── GapAnalysis.js
+│   │   ├── QuizAttempt.js
+│   │   ├── Streak.js
+│   │   └── StarStory.js
 │   ├── routes/
 │   │   ├── authRoutes.js
 │   │   ├── noteRoutes.js
 │   │   ├── chatRoutes.js
 │   │   ├── resumeRoutes.js
 │   │   ├── studyPlanRoutes.js
-│   │   └── interviewRoutes.js
+│   │   ├── interviewRoutes.js
+│   │   ├── gapAnalyzerRoutes.js
+│   │   ├── quizRoutes.js
+│   │   ├── streakRoutes.js
+│   │   └── starStoryRoutes.js
 │   ├── middleware/
 │   │   ├── auth.js
+│   │   ├── asyncHandler.js
 │   │   ├── errorHandler.js
 │   │   ├── rateLimiter.js
 │   │   └── logger.js
 │   ├── services/
 │   │   └── geminiService.js
+│   ├── seed/
+│   │   └── guestSeed.js
 │   ├── uploads/
 │   ├── .env.example
 │   ├── server.js
@@ -137,43 +196,47 @@ AI Study Assistant/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── auth/
-│   │   │   │   └── AuthGuard.jsx
 │   │   │   ├── common/
 │   │   │   │   ├── CommonComponents.jsx
 │   │   │   │   ├── ProtectedRoute.jsx
-│   │   │   │   └── Sidebar.jsx
-│   │   │   ├── chat/
-│   │   │   │   └── ChatInterface.jsx
-│   │   │   └── dashboard/
-│   │   │       └── NotesManager.jsx
+│   │   │   │   ├── Sidebar.jsx
+│   │   │   │   ├── GuestBanner.jsx
+│   │   │   │   ├── MCQQuiz.jsx
+│   │   │   │   ├── FlipCard.jsx
+│   │   │   │   ├── CircularProgress.jsx
+│   │   │   │   ├── DropZone.jsx
+│   │   │   │   └── TypingIndicator.jsx
+│   │   │   ├── dashboard/
+│   │   │   │   ├── NotesManager.jsx
+│   │   │   │   ├── StreakWidget.jsx
+│   │   │   │   └── HeatmapWidget.jsx
+│   │   │   └── chat/
+│   │   │       └── ChatInterface.jsx
 │   │   ├── pages/
+│   │   │   ├── LandingPage.jsx
 │   │   │   ├── LoginPage.jsx
 │   │   │   ├── RegisterPage.jsx
 │   │   │   ├── DashboardPage.jsx
 │   │   │   ├── NotesPage.jsx
+│   │   │   ├── NoteDetail.jsx
 │   │   │   ├── ChatPage.jsx
 │   │   │   ├── ResumePage.jsx
-│   │   │   ├── StudyPlanPage.jsx
-│   │   │   └── InterviewPage.jsx
+│   │   │   ├── StudyPlansPage.jsx
+│   │   │   ├── MockInterviewPage.jsx
+│   │   │   ├── GapAnalyzerPage.jsx
+│   │   │   ├── StarStoriesPage.jsx
+│   │   │   └── QuizAnalyticsPage.jsx
 │   │   ├── services/
 │   │   │   └── api.js
 │   │   ├── context/
 │   │   │   ├── authStore.js
 │   │   │   └── themeStore.js
-│   │   ├── hooks/
-│   │   │   └── useCustom.js
 │   │   ├── layouts/
 │   │   │   └── MainLayout.jsx
 │   │   ├── utils/
 │   │   │   └── helpers.js
 │   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── index.html
-│   ├── tailwind.config.js
-│   ├── vite.config.js
-│   ├── .env.example
+│   │   └── main.jsx
 │   └── package.json
 │
 ├── .gitignore
@@ -227,7 +290,12 @@ GROQ_API_KEY=gsk_your_groq_api_key
 FRONTEND_URL=http://localhost:5173
 ```
 
-5. **Start the backend server:**
+5. **Seed guest demo data (optional):**
+```bash
+node seed/guestSeed.js
+```
+
+6. **Start the backend server:**
 ```bash
 npm run dev
 ```
@@ -270,6 +338,7 @@ Frontend will run on `http://localhost:5173`
 ```
 POST   /api/auth/register           - Register new user
 POST   /api/auth/login              - Login user
+POST   /api/auth/guest              - Guest login (no credentials needed)
 POST   /api/auth/logout             - Logout user
 POST   /api/auth/refresh-token      - Refresh access token
 GET    /api/auth/me                 - Get current user
@@ -281,6 +350,7 @@ PUT    /api/auth/update-profile     - Update user profile
 GET    /api/notes                   - Get all notes (paginated)
 GET    /api/notes/:id               - Get single note
 POST   /api/notes/upload            - Upload new note (PDF/TXT)
+POST   /api/notes/generate-content  - Generate AI content from note
 PUT    /api/notes/:id               - Update note
 DELETE /api/notes/:id               - Delete note
 ```
@@ -292,13 +362,12 @@ POST   /api/chats                   - Create new chat
 GET    /api/chats/:chatId           - Get single chat
 POST   /api/chats/:chatId/message   - Send message (get AI response)
 DELETE /api/chats/:chatId           - Delete chat
-PUT    /api/chats/:chatId/toggle-pin - Toggle pin status
 ```
 
 ### Resume Analysis Endpoints
 ```
-POST   /api/resume/:noteId/analyze  - Analyze resume
-GET    /api/resume/:noteId          - Get analysis results
+POST   /api/resume/analyze          - Analyze resume PDF
+POST   /api/resume/generate-bullets - Generate resume bullets from notes
 GET    /api/resume                  - Get all analyses
 ```
 
@@ -307,18 +376,31 @@ GET    /api/resume                  - Get all analyses
 GET    /api/study-plans             - Get all plans
 POST   /api/study-plans             - Create new plan
 GET    /api/study-plans/:id         - Get single plan
-PUT    /api/study-plans/:id         - Update plan
 DELETE /api/study-plans/:id         - Delete plan
 ```
 
 ### Interview Endpoints
 ```
+POST   /api/interviews/start        - Start new interview (with persona)
+POST   /api/interviews/respond      - Submit answer get feedback
+POST   /api/interviews/end          - End interview get report
 GET    /api/interviews              - Get all interviews
-POST   /api/interviews/start        - Start new interview
-GET    /api/interviews/:id          - Get interview details
-POST   /api/interviews/:id/submit-response/:questionId - Submit response
-PUT    /api/interviews/:id/complete - Complete interview
-DELETE /api/interviews/:id          - Delete interview
+```
+
+### New Feature Endpoints
+```
+POST   /api/gap-analyzer            - Analyze job description gap
+GET    /api/gap-analyzer/history    - Get past analyses
+
+POST   /api/quiz/submit-answer      - Submit MCQ answer with confidence
+GET    /api/quiz/analytics          - Get confidence analytics
+
+GET    /api/streak/today            - Get today's challenge + streak
+POST   /api/streak/complete         - Mark challenge complete
+
+POST   /api/star-stories            - Create STAR story
+GET    /api/star-stories            - Get all stories
+DELETE /api/star-stories/:id        - Delete story
 ```
 
 ## 🔧 Tech Stack
@@ -341,6 +423,7 @@ DELETE /api/interviews/:id          - Delete interview
 - TailwindCSS
 - Zustand (State management)
 - React Hot Toast (Notifications)
+- Recharts (Analytics charts)
 
 ## 🌐 Deployment
 
@@ -362,24 +445,6 @@ DELETE /api/interviews/:id          - Delete interview
 - ✅ Secure file upload handling
 - ✅ Environment variable protection
 
-## 📈 Performance Optimizations
-
-- Code splitting and lazy loading
-- API response caching
-- Database indexing
-- Pagination for large datasets
-- Debouncing and throttling
-- JavaScript bundling
-
-## 🐛 Error Handling
-
-- Comprehensive error middleware
-- User-friendly error messages
-- Proper HTTP status codes
-- Validation error feedback
-- Toast notifications for errors
-- Error logging
-
 ## 🎯 Future Enhancements
 
 - [ ] Voice-to-text input for questions
@@ -391,14 +456,6 @@ DELETE /api/interviews/:id          - Delete interview
 - [ ] Real-time collaboration
 - [ ] Advanced analytics dashboard
 
-## 📝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## 📄 License
 
 This project is licensed under the ISC License.
@@ -407,8 +464,9 @@ This project is licensed under the ISC License.
 
 - **Email:** joyalquadras95@gmail.com
 - **GitHub:** https://github.com/Joyalquadras/ai-study-interview-assistant
-- **Live Demo:** https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app/
+- **Live Demo:** https://ai-study-interview-assistant.vercel.app/
 
 ---
 
 **Made with ❤️ by Joyal Quadras**
+````
