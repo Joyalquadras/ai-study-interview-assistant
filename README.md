@@ -1,6 +1,3 @@
-Here's the complete updated README with new live link and all new features:
-
-````markdown
 # 🎓 AI Study & Interview Preparation Assistant
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-blue?style=for-the-badge)](https://ai-study-interview-assistant.vercel.app/)
