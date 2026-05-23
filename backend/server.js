@@ -57,15 +57,25 @@ connectDB();
 app.use(helmet());
 
 // Allowed frontend origins
-// In server.js, replace the hardcoded array with:
 const allowedOrigins = [
   'http://localhost:5173',
-  process.env.FRONTEND_URL, // set this in Render dashboard
-].filter(Boolean);
+  'http://localhost:5174',
+  'https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app',
+];
+
+// Allow localhost ports during development
+if (process.env.NODE_ENV === 'development') {
+  allowedOrigins.push('http://localhost:5173');
+  allowedOrigins.push('http://localhost:5174');
+  allowedOrigins.push('http://localhost:5175');
+  allowedOrigins.push('http://localhost:5176');
+  allowedOrigins.push('http://localhost:5177');
+}
 
 // CORS configuration
 app.use(
   cors({
+    credentials: true,
     origin: (origin, callback) => {
       // Allow requests without origin
       // (Postman, mobile apps, curl, etc.)
@@ -73,12 +83,12 @@ app.use(
         return callback(null, true);
       }
 
-      // Allow whitelisted origins
+      // Allow listed origins
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
-      // Allow localhost dynamically in development
+      // Allow localhost in development
       if (
         process.env.NODE_ENV === 'development' &&
         /^https?:\/\/localhost(:\d+)?$/.test(origin)
@@ -86,21 +96,11 @@ app.use(
         return callback(null, true);
       }
 
-      console.error(`❌ CORS blocked for origin: ${origin}`);
-
-      return callback(
-        new Error(`CORS blocked for origin: ${origin}`)
-      );
+      // Reject other origins
+      return callback(new Error('Not allowed by CORS'));
     },
-
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
-
-// Handle preflight requests
-app.options('*', cors());
 
 // Body parsers
 app.use(express.json({ limit: '50mb' }));
@@ -115,14 +115,6 @@ app.use(limiter);
 /* ======================================================
    ROUTES
 ====================================================== */
-
-// Root Route
-app.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'AI Study Interview Assistant API Running',
-  });
-});
 
 // Health Check
 app.get('/api/health', (req, res) => {
@@ -173,8 +165,9 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log('====================================');
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`Frontend URL: ${process.env.FRONTEND_URL}`);
   console.log('====================================');
 });
 

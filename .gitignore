@@ -1,12 +1,36 @@
+# Environment files
 .env
 .env.local
-node_modules
-dist
-build
+.env.development
+.env.production
+
+# Dependencies
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Uploads (never commit user uploaded files)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
 .DS_Store
+Thumbs.db
+thumbs.db
+
+# Editor files
+.vscode/
+.idea/
 *.swp
 *.swo
 *~
-.vscode
-.idea
-*.log
+
+# Misc
+repomix-output.xml
+*.xml

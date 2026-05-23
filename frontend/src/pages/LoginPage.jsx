@@ -1,3 +1,4 @@
+// frontend/src/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../context/authStore';
@@ -8,9 +9,10 @@ export const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [guestLoading, setGuestLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login, loginAsGuest } = useAuthStore(); // 👈 add loginAsGuest
+  const { login, guestLogin } = useAuthStore();
 
   const validateForm = () => {
     const newErrors = {};
@@ -54,11 +56,17 @@ export const LoginPage = () => {
     }
   };
 
-  // 👇 new handler
-  const handleGuestLogin = () => {
-    loginAsGuest();
-    showToast.success('Continuing as Guest');
-    navigate('/dashboard');
+  const handleGuestLogin = async () => {
+    setGuestLoading(true);
+    try {
+      await guestLogin();
+      showToast.success("Welcome! You're exploring as a Guest 👋");
+      navigate('/dashboard');
+    } catch (error) {
+      showToast.error(getErrorMessage(error));
+    } finally {
+      setGuestLoading(false);
+    }
   };
 
   return (
@@ -93,7 +101,6 @@ export const LoginPage = () => {
           </Button>
         </form>
 
-        {/* 👇 Divider + Guest Button */}
         <div className="mt-4 flex items-center gap-3">
           <hr className="flex-1 border-gray-200" />
           <span className="text-sm text-gray-400">or</span>
@@ -102,15 +109,26 @@ export const LoginPage = () => {
 
         <button
           onClick={handleGuestLogin}
-          className="mt-4 w-full py-2 px-4 border-2 border-blue-200 text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+          disabled={guestLoading}
+          className="mt-4 w-full py-2 px-4 border-2 border-blue-200 text-blue-600 rounded-lg font-medium hover:bg-blue-50 disabled:opacity-60 flex items-center justify-center gap-2 transition-colors"
         >
-          👋 Continue as Guest
+          {guestLoading ? (
+            <>
+              <span className="inline-block w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              Signing in...
+            </>
+          ) : (
+            '👋 Continue as Guest'
+          )}
         </button>
 
         <div className="mt-6 text-center">
           <p className="text-gray-600">
             Don't have an account?{' '}
-            <Link to="/register" className="text-blue-600 hover:underline font-semibold">
+            <Link
+              to="/register"
+              className="text-blue-600 hover:underline font-semibold"
+            >
               Sign up
             </Link>
           </p>
