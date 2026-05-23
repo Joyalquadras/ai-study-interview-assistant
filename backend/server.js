@@ -56,47 +56,39 @@ connectDB();
 // Security headers
 app.use(helmet());
 
-// Allowed frontend origins
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'https://ai-study-assistant-ni28-2xa9pm9lh-joyalquadras-projects.vercel.app',
-];
-
-// Allow localhost ports during development
-if (process.env.NODE_ENV === 'development') {
-  allowedOrigins.push('http://localhost:5173');
-  allowedOrigins.push('http://localhost:5174');
-  allowedOrigins.push('http://localhost:5175');
-  allowedOrigins.push('http://localhost:5176');
-  allowedOrigins.push('http://localhost:5177');
-}
-
-// CORS configuration
+// CORS configuration — allow all Vercel deployments + localhost
 app.use(
   cors({
     credentials: true,
     origin: (origin, callback) => {
-      // Allow requests without origin
-      // (Postman, mobile apps, curl, etc.)
+      // Allow requests without origin (Postman, curl, etc.)
       if (!origin) {
         return callback(null, true);
       }
 
-      // Allow listed origins
-      if (allowedOrigins.includes(origin)) {
+      // Allow all vercel.app deployments
+      if (origin.endsWith('.vercel.app')) {
         return callback(null, true);
       }
 
-      // Allow localhost in development
+      // Allow localhost any port
+      if (/^https?:\/\/localhost(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow FRONTEND_URL from env
       if (
-        process.env.NODE_ENV === 'development' &&
-        /^https?:\/\/localhost(:\d+)?$/.test(origin)
+        process.env.FRONTEND_URL &&
+        origin === process.env.FRONTEND_URL
       ) {
         return callback(null, true);
       }
 
-      // Reject other origins
+      // Allow all in development
+      if (process.env.NODE_ENV === 'development') {
+        return callback(null, true);
+      }
+
       return callback(new Error('Not allowed by CORS'));
     },
   })
