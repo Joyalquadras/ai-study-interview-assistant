@@ -51,9 +51,7 @@ export const LoginPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: '' });
-    }
+    if (errors[name]) setErrors({ ...errors, [name]: '' });
   };
 
   const handleGuestLogin = async () => {
@@ -71,15 +69,20 @@ export const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 sm:p-8">
+
+        {/* Header */}
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
             AI Study Assistant
           </h1>
-          <p className="text-gray-600">Welcome back! Login to your account</p>
+          <p className="text-sm sm:text-base text-gray-600">
+            Welcome back! Login to your account
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
           <Input
             name="email"
             type="email"
@@ -101,16 +104,18 @@ export const LoginPage = () => {
           </Button>
         </form>
 
+        {/* Divider */}
         <div className="mt-4 flex items-center gap-3">
           <hr className="flex-1 border-gray-200" />
-          <span className="text-sm text-gray-400">or</span>
+          <span className="text-xs sm:text-sm text-gray-400">or</span>
           <hr className="flex-1 border-gray-200" />
         </div>
 
+        {/* Guest login */}
         <button
           onClick={handleGuestLogin}
           disabled={guestLoading}
-          className="mt-4 w-full py-2 px-4 border-2 border-blue-200 text-blue-600 rounded-lg font-medium hover:bg-blue-50 disabled:opacity-60 flex items-center justify-center gap-2 transition-colors"
+          className="mt-4 w-full py-2.5 px-4 border-2 border-blue-200 text-blue-600 rounded-xl text-sm sm:text-base font-medium hover:bg-blue-50 disabled:opacity-60 flex items-center justify-center gap-2 transition-colors"
         >
           {guestLoading ? (
             <>
@@ -122,13 +127,11 @@ export const LoginPage = () => {
           )}
         </button>
 
-        <div className="mt-6 text-center">
-          <p className="text-gray-600">
+        {/* Sign up link */}
+        <div className="mt-5 sm:mt-6 text-center">
+          <p className="text-sm sm:text-base text-gray-600">
             Don't have an account?{' '}
-            <Link
-              to="/register"
-              className="text-blue-600 hover:underline font-semibold"
-            >
+            <Link to="/register" className="text-blue-600 hover:underline font-semibold">
               Sign up
             </Link>
           </p>

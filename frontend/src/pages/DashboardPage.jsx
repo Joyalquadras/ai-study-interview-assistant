@@ -18,7 +18,6 @@ export const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 👇 Skip API call entirely for guest users
     if (user?.isGuest) {
       setIsLoading(false);
       return;
@@ -45,71 +44,73 @@ export const DashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+      {/* Heading */}
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
           Welcome back, {user?.name}!
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
           Here&apos;s what&apos;s happening with your study today
         </p>
       </div>
 
-      <div className="space-y-6 mb-8">
+      {/* Widgets */}
+      <div className="space-y-4 md:space-y-6 mb-6 md:mb-8">
         <StreakWidget />
         <HeatmapWidget />
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
         <Card>
           <div className="text-center">
-            <div className="text-4xl font-bold text-blue-600 mb-2">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-1 md:mb-2">
               {stats.totalNotes}
             </div>
-            <p className="text-gray-600">Notes Uploaded</p>
+            <p className="text-xs sm:text-sm text-gray-600">Notes Uploaded</p>
           </div>
         </Card>
         <Card>
           <div className="text-center">
-            <div className="text-4xl font-bold text-green-600 mb-2">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mb-1 md:mb-2">
               {stats.totalChats}
             </div>
-            <p className="text-gray-600">AI Conversations</p>
+            <p className="text-xs sm:text-sm text-gray-600">AI Conversations</p>
           </div>
         </Card>
         <Card>
           <div className="text-center">
-            <div className="text-4xl font-bold text-purple-600 mb-2">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600 mb-1 md:mb-2">
               {stats.totalPlans}
             </div>
-            <p className="text-gray-600">Study Plans</p>
+            <p className="text-xs sm:text-sm text-gray-600">Study Plans</p>
           </div>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         <Link to="/notes">
-          <Button className="w-full" variant="primary">📝 Upload Notes</Button>
+          <Button className="w-full text-sm sm:text-base" variant="primary">📝 Upload Notes</Button>
         </Link>
         <Link to="/chat">
-          <Button className="w-full" variant="primary">💬 Start Chat</Button>
+          <Button className="w-full text-sm sm:text-base" variant="primary">💬 Start Chat</Button>
         </Link>
         <Link to="/gap-analyzer">
-          <Button className="w-full" variant="primary">🔍 Gap Analyzer</Button>
+          <Button className="w-full text-sm sm:text-base" variant="primary">🔍 Gap Analyzer</Button>
         </Link>
         <Link to="/mock-interview">
-          <Button className="w-full" variant="primary">🎯 Mock Interview</Button>
+          <Button className="w-full text-sm sm:text-base" variant="primary">🎯 Mock Interview</Button>
         </Link>
       </div>
 
       {/* Recent Activity */}
       <Card>
-        <h2 className="text-xl font-bold mb-4">Recent Notes</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-4">Recent Notes</h2>
 
-        {/* 👇 Guest-specific empty state */}
         {user?.isGuest ? (
           <div className="text-center py-6">
-            <p className="text-gray-500 mb-3">
+            <p className="text-sm sm:text-base text-gray-500 mb-3">
               You're in guest mode. Register to save notes and track progress.
             </p>
             <Link to="/register">
@@ -123,20 +124,20 @@ export const DashboardPage = () => {
             {stats.recentActivity.map((note) => (
               <div
                 key={note._id}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <div>
-                  <h3 className="font-semibold text-gray-900">{note.title}</h3>
-                  <p className="text-sm text-gray-500">
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{note.title}</h3>
+                  <p className="text-xs sm:text-sm text-gray-500">
                     {getTimeAgo(note.createdAt)} • {note.fileType.toUpperCase()}
                   </p>
                 </div>
-                <Button variant="outline" size="sm">View</Button>
+                <Button variant="outline" size="sm" className="shrink-0">View</Button>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No notes yet. Upload your first note to get started!</p>
+          <p className="text-sm sm:text-base text-gray-500">No notes yet. Upload your first note to get started!</p>
         )}
       </Card>
     </div>

@@ -18,10 +18,7 @@ const TABS = [
 const TabSkeleton = () => (
   <div className="space-y-4">
     {[1, 2, 3].map((n) => (
-      <div
-        key={n}
-        className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-xl h-24"
-      />
+      <div key={n} className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-xl h-24" />
     ))}
   </div>
 );
@@ -37,9 +34,9 @@ const InterviewPrepCard = ({ item }) => {
   const difficulty = (item.difficulty || 'medium').toLowerCase();
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-white dark:bg-gray-900">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-3 sm:p-4 bg-white dark:bg-gray-900">
       <div className="flex items-start justify-between gap-3">
-        <p className="font-medium text-gray-900 dark:text-gray-100 flex-1">
+        <p className="font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100 flex-1">
           {item.question || item}
         </p>
         {item.difficulty && (
@@ -98,9 +95,7 @@ export const NoteDetail = () => {
 
   const handleTabClick = async (tab) => {
     setActiveTab(tab.id);
-
     if (tabCache[tab.id]) return;
-
     try {
       setLoading(true);
       const res = await notesAPI.generateContent(id, tab.type);
@@ -115,10 +110,7 @@ export const NoteDetail = () => {
   const parseSummaryBullets = (summary) => {
     if (!summary) return [];
     if (Array.isArray(summary)) return summary;
-    return summary
-      .split(/\n|•/)
-      .map((s) => s.trim())
-      .filter(Boolean);
+    return summary.split(/\n|•/).map((s) => s.trim()).filter(Boolean);
   };
 
   const renderTabContent = () => {
@@ -128,7 +120,7 @@ export const NoteDetail = () => {
 
     if (!data) {
       return (
-        <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+        <p className="text-gray-500 dark:text-gray-400 text-center py-8 text-sm sm:text-base">
           Select a tab to generate content
         </p>
       );
@@ -138,9 +130,9 @@ export const NoteDetail = () => {
       case 'summary': {
         const bullets = parseSummaryBullets(data.summary);
         return (
-          <ul className="list-disc pl-5 space-y-2">
+          <ul className="list-disc pl-4 sm:pl-5 space-y-2">
             {bullets.map((item, i) => (
-              <li key={i} className="text-gray-800 dark:text-gray-200">
+              <li key={i} className="text-sm sm:text-base text-gray-800 dark:text-gray-200">
                 {item}
               </li>
             ))}
@@ -151,10 +143,10 @@ export const NoteDetail = () => {
       case 'questions': {
         const questions = data.questions || [];
         return (
-          <ol className="space-y-3 list-decimal pl-5">
+          <ol className="space-y-3 list-decimal pl-4 sm:pl-5">
             {questions.map((q, i) => (
               <li key={i}>
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+                <div className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-sm sm:text-base text-gray-800 dark:text-gray-200">
                   {typeof q === 'string' ? q : q.question || q.text}
                 </div>
               </li>
@@ -169,17 +161,17 @@ export const NoteDetail = () => {
       case 'flashcards': {
         const cards = data.flashcards || [];
         return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {cards.map((f, i) => (
               <FlipCard
                 key={i}
                 front={
-                  <div className="font-semibold text-gray-900 dark:text-gray-100 min-h-[80px] flex items-center justify-center text-center">
+                  <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 min-h-[80px] flex items-center justify-center text-center">
                     {f.front}
                   </div>
                 }
                 back={
-                  <div className="text-gray-700 dark:text-gray-300 min-h-[80px] flex items-center justify-center text-center">
+                  <div className="text-sm sm:text-base text-gray-700 dark:text-gray-300 min-h-[80px] flex items-center justify-center text-center">
                     {f.back}
                   </div>
                 }
@@ -217,37 +209,37 @@ export const NoteDetail = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-5xl mx-auto space-y-6">
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+      <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
+        {/* Note info card */}
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
             {note?.title}
           </h1>
           {note?.description && (
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">
               {note.description}
             </p>
           )}
-          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500 mt-2">
             Uploaded {formatDate(note?.uploadedAt || note?.createdAt)}
           </p>
           {note?.parsedContentPreview && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg leading-relaxed">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-3 sm:mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg leading-relaxed">
               {note.parsedContentPreview}
-              {(note.content?.length > 200 ||
-                note.parsedContentPreview?.length >= 200) &&
-                '…'}
+              {(note.content?.length > 200 || note.parsedContentPreview?.length >= 200) && '…'}
             </p>
           )}
         </div>
 
+        {/* Tabs */}
         <div className="border-b border-gray-200 dark:border-gray-700">
-          <nav className="flex gap-1 overflow-x-auto">
+          <nav className="flex gap-0 overflow-x-auto scrollbar-hide">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => handleTabClick(tab)}
-                className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
                   activeTab === tab.id
                     ? 'border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -259,7 +251,8 @@ export const NoteDetail = () => {
           </nav>
         </div>
 
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-6 min-h-[300px]">
+        {/* Tab content */}
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 min-h-[300px]">
           {renderTabContent()}
         </div>
       </div>

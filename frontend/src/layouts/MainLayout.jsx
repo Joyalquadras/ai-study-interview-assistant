@@ -13,7 +13,8 @@ export const MainLayout = ({ children }) => {
       <div className="flex flex-1 min-h-0 w-full">
         <Sidebar />
         <div className="flex-1 overflow-auto min-w-0">
-          <main className="p-4 sm:p-8">{children}</main>
+          {/* pt-16 on mobile gives space below the hamburger button */}
+          <main className="p-4 pt-16 md:pt-6 sm:p-6 md:p-8">{children}</main>
         </div>
       </div>
     </div>
